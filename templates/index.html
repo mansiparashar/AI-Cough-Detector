@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>
+		Pnuemosense
+	</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+	<link rel="shortcut icon" href="#">
+
+</head>
+<body>
+	<main>
+		<div class="container mt-5">
+			<div class="row">
+				<div class="col-12">
+						<h2>Record</h2>
+			      		<p>
+			      			<button id=record></button>
+			      			<button id=stopRecord disabled>Stop</button>
+			      		</p>
+			      		<p>
+			      			<audio id=recordedAudio></audio>
+			      						      	
+			      		</p>
+					
+				</div>
+				<br>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-6">
+					<button id="predict-button" class="btn btn-dark float-right" type="file">Predict</button>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col">
+					<h2 class="ml-3">Predictions</h2>
+					<h1 id="prediction"></h1>					
+				</div>				
+			</div>
+			<br>
+		</div>
+	</main>
+	
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
+	<script src="{{ url_for('static',filename='predict.js') }}"></script>
+</body>
