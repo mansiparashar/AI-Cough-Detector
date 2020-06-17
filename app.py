@@ -61,6 +61,12 @@ def print_prediction(model,file_name):
     prediction_feature = librosa.util.fix_length(prediction_feature, 216)
     prediction_feature = prediction_feature.reshape(1, 40, 216, 1)
     predicted_vector = model.predict_classes(prediction_feature)
+    #Predict probability
+    predicted_proba_vector = model.predict_proba(prediction_feature) 
+    predicted_proba = predicted_proba_vector[0]
+    for i in range(len(predicted_proba)): 
+        category = getLabel(i)
+        print(category, "\t\t : ", format(predicted_proba[i], '.32f') )
 
     return predicted_vector
 

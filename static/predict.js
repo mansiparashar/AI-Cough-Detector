@@ -97,7 +97,7 @@ navigator.mediaDevices.getUserMedia({audio:true})
               // Create the event
               var event = new CustomEvent("Trigger", { "detail": {
                 message : "You Coughed!",
-                Textcolor : "red" } });
+                } });
               
               if (result.label === "coughing"){
                 pred.dispatchEvent(event);
