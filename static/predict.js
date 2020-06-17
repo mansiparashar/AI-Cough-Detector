@@ -1,4 +1,4 @@
-//Global variablr
+//Global variable
 var base64data
 //Take permission to record audio and then send stream
 navigator.mediaDevices.getUserMedia({audio:true})
@@ -90,8 +90,6 @@ navigator.mediaDevices.getUserMedia({audio:true})
               // Add an event listener
               pred.addEventListener("Trigger", function(e) {
                 //console.log(e.detail); // Prints "Example of an event"
-                pred.style.color = e.detail.Textcolor;
-                pred.innerHTML = "Cough";
                 element.style.display ="block";
 
               });
@@ -105,8 +103,7 @@ navigator.mediaDevices.getUserMedia({audio:true})
                 pred.dispatchEvent(event);
               }
               else{
-                pred.style.color = "black";
-                pred.innerHTML ="Predictions";
+                               
                 element.style.display = "none";
               }
             }
@@ -118,7 +115,7 @@ navigator.mediaDevices.getUserMedia({audio:true})
           record.disabled = true;
           record.style.backgroundColor = "blue"
           stopRecord.disabled=false;
-          audioChunks = [];
+          
           rec.start();
 
         }
@@ -128,8 +125,8 @@ navigator.mediaDevices.getUserMedia({audio:true})
 
           console.log("Stop:I was clicked")
           record.disabled = false;
-          stop.disabled=true;
-          record.style.backgroundColor = "red"
+          stopRecord.disabled=true;
+          record.style.backgroundColor = "white"
           rec.stop();
         
         }
