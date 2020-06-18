@@ -34,12 +34,12 @@ app = Flask(__name__)
 count = "0"
 
 # load json and create model
-json_file = open(os.path.join(os.getcwd(),"model_6\model_sd_6.json"), 'r')
+json_file = open(os.path.join(os.getcwd(),"model_6b\model_6b.json"), 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 # load weights into new model
-loaded_model.load_weights(r".\model_6\model_sd_6.h5")
+loaded_model.load_weights(r".\model_6b\model_6b.h5")
 print("Loaded model from disk")
 
 print('Model loaded. Check http://127.0.0.1:5000/')
@@ -61,23 +61,32 @@ def print_prediction(model,file_name):
     prediction_feature = librosa.util.fix_length(prediction_feature, 216)
     prediction_feature = prediction_feature.reshape(1, 40, 216, 1)
     predicted_vector = model.predict_classes(prediction_feature)
+
+    print("The predicted class number is:", predicted_vector[0], '\n')
+
+    labelid = np.int16(predicted_vector[0]).item()
+    labelname = getLabel(labelid)
+    
     #Predict probability
     predicted_proba_vector = model.predict_proba(prediction_feature) 
     predicted_proba = predicted_proba_vector[0]
     for i in range(len(predicted_proba)): 
         category = getLabel(i)
-        print(category, "\t\t : ", format(predicted_proba[i], '.32f') )
+        #print(category, "\t\t : ", format(predicted_proba[i], '.32f') )
+        if (i) == labelid:
+            probability = round(predicted_proba[i],2)
+            #print(category," : ",probability)
 
-    return predicted_vector
+    return labelname,probability
 
 
 def getLabel(labelid):
 
     labelname = ""
-    labels = {'airplane': 0, 'breathing': 1, 'car_horn': 2, 'cat': 3, 'chainsaw': 4, 'chirping_birds': 5,
- 'church_bells': 6, 'clapping': 7, 'clock_alarm': 8, 'coughing': 9, 'cow': 10, 'crow': 11, 'crying_baby': 12,
- 'dog': 13, 'door_wood_knock': 14, 'engine': 15, 'fireworks': 16, 'helicopter': 17, 'laughing': 18,
- 'laughter': 19, 'rain': 20, 'siren': 21, 'speech': 22, 'thunderstorm': 23, 'train': 24, 'wind': 25}
+    labels = {'airplane': 0, 'breathing': 1, 'car_horn': 2, 'cat': 3, 'chainsaw': 4, 'chirping_birds': 5, 'church_bells': 6,
+    'clapping': 7, 'clock_alarm': 8, 'coughing': 9, 'cow': 10, 'crow': 11, 'crying_baby': 12, 'dog': 13,
+    'door_wood_knock': 14, 'engine': 15, 'fireworks': 16, 'helicopter': 17, 'laughing': 18, 'laughter': 19,
+    'rain': 20, 'silence': 21, 'siren': 22, 'speech': 23, 'thunderstorm': 24, 'train': 25, 'wind': 26}
 
     for name,i in labels.items():
         if i == labelid:
@@ -121,14 +130,14 @@ def api_message():
 
         if (os.path.isfile(filepath)):
             print(filepath)
-            v = print_prediction(loaded_model,filepath)
+            lname,lprob = print_prediction(loaded_model,filepath)
             
-            print("The predicted class number is:", v[0], '\n')
-            labelid = np.int16(v[0]).item()
-            labelname = getLabel(labelid) 
-            print("Label predicted: ",labelname)
+            #print("The predicted class number is:", v[0], '\n')
+            #labelid = np.int16(v[0]).item()
+            #labelname = getLabel(labelid) 
+            print("Label predicted: ",lname," Probability: ",lprob)
             os.remove(filepath)
-            return jsonify({"label":labelname})
+            return jsonify({"label":lname,"probability":str(lprob)})
             
         else:
             print("filepath ERROR")

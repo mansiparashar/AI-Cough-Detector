@@ -82,7 +82,8 @@ navigator.mediaDevices.getUserMedia({audio:true})
                   //body: JSON.stringify({message:"Hi there!"})
                 });
               var result = await response.json();
-              
+              //console.log(result)
+              //console.log(result.probability)
               var pred = document.getElementById("prediction");
               var element = document.getElementById("container1");
               
@@ -99,7 +100,7 @@ navigator.mediaDevices.getUserMedia({audio:true})
                 message : "You Coughed!",
                 } });
               
-              if (result.label === "coughing"){
+              if (result.label === "coughing" && parseFloat(result.probability) >= 0.90){
                 pred.dispatchEvent(event);
               }
               else{
