@@ -1,5 +1,5 @@
 numpy==1.18.5
-Flask==1.1.2
+Flask==2.3.2
 gevent==1.4.0
 Keras==2.3.0
 librosa==0.6.3
